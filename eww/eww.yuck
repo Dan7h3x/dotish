@@ -1,0 +1,54 @@
+(include "./tags.yuck")
+(include "./player.yuck")
+(include "./time.yuck")
+(include "./utils.yuck")
+(include "./dash.yuck")
+(include "./info.yuck")
+(include "./title.yuck")
+;; -----------------
+(defwindow bar
+          :monitor 0
+          :class "mainbar"
+           :geometry (geometry :x "0%"
+                               :y "0px"
+                               :width "100%"
+                               :height "30px"
+                               :anchor "top center")
+           :stacking "fg"
+            :namespace "bar"
+            :focusable "false"
+            :exclusive "true"
+  (box
+    :orientation "h"
+    :space-evenly false
+    :halign "center"
+    (box
+    :class "left"
+    :halign "start"
+    (tagplace)
+    )
+    (box
+      :class "player"
+      :halign "center"
+      (playerBar)
+    )
+    (box
+      (titlebox)
+    )
+    (box
+      :halign "start"
+    (bar-tray)
+    )
+    (box
+      :halign "center"
+      :space-evenly "false"
+      :spacing 5
+      (infobar)
+      (volumebutt)
+      (clock)
+      (wallpaper)
+    )
+
+
+  )
+)

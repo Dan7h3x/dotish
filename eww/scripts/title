@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+while sleep 1; do
+  river-bedload -print title | jq -r --unbuffered '.[0].title'
+done

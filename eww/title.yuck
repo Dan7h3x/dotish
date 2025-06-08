@@ -1,0 +1,7 @@
+(deflisten titlex :initial "Desktop" "./scripts/title")
+
+(defwidget titlebox []
+  (box :class "titlebox" :tooltip titlex
+    (label :text "${titlex}" :limit-width 20)
+  )
+)

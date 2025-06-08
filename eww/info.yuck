@@ -1,0 +1,72 @@
+(defvar reveal_info false)
+(deflisten volumeval `pamixer --get-volume`)
+
+
+(defwidget infobar []
+  (button
+    :onclick "foot -T Floating -W 82x49 -e btop &"
+    (box
+    :class "infobutton"
+      (box :tooltip "CPU usage ${round(EWW_CPU.avg, 0)}%"
+            (circular-progress
+                :class "progress-cpu progress-general"
+                :value "${EWW_CPU.avg}"
+                :thickness 3
+                (image
+                    :path "./icons/cpu.svg"
+                    :image-width 20
+                    :image-height 20
+                )
+            )
+        )
+    (box :tooltip "Ram used ${round( EWW_RAM.used_mem * 100 / EWW_RAM.total_mem, 0 )}%"
+            (circular-progress
+                :class "progress-ram progress-general"
+                :value "${EWW_RAM.used_mem * 100 / EWW_RAM.total_mem}"
+                :thickness 3
+                (image
+                    :path "./icons/ram.svg"
+                    :image-width 20
+                    :image-height 20
+                )
+            )
+        )
+        (box :tooltip "Storage used ${round(EWW_DISK["/"].used * 100 / EWW_DISK["/"].total, 0)}%"
+            (circular-progress
+                :class "progress-disk progress-general"
+                :value "${EWW_DISK["/"].used * 100 / EWW_DISK["/"].total}"
+                :thickness 3
+                (image
+                    :path "./icons/pc.svg"
+                    :image-width 20
+                    :image-height 20
+                )
+            )
+        )
+
+
+
+
+    )
+
+  )
+)
+
+
+(defwidget volumebutt []
+    (eventbox :tooltip "${volumeval}"
+      :onscroll "sh -e ~/.config/eww/scripts/volume {} && eww update volumeval=$(pamixer --get-volume)"
+      :class "volumebutt"
+      (box
+      :space-evenly "false"
+        (image
+                    :path "${volumeval <= 33 ? './icons/volume/audio-volume-low.svg' : volumeval <=66 ? './icons/volume/audio-volume-medium.svg' : './icons/volume/audio-volume-high.svg'}"
+                    :image-width 20
+                    :image-height 20
+        )
+      (label :text "${volumeval}")
+      )
+      )
+)
+
+

@@ -1,0 +1,22 @@
+(deflisten tags :initial "[1]"  './scripts/tagger "tag"')
+(deflisten focused :initial "1"  './scripts/tagger "focused"')
+
+
+
+(defwidget tagbar []
+  (box
+    :class "tagbar"
+    :orientation "h"
+    :spacing 7
+    (for tag in tags
+      (eventbox
+        :onclick `riverctl set-focused-tags ${tag}`
+        (box
+          :class `${tag == focused ? "active-tag" : "empty-tag"}`
+          {tag}
+        )
+      )
+    )
+  )
+)
+

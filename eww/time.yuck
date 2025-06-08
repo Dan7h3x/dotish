@@ -1,0 +1,54 @@
+(deflisten time :initial `{"hour":"0","minute":"0","second":"0","meridian":"AM","weekday":"Sunday","month":"Jan","day":"01"}` "./scripts/datetime")
+
+(defwidget clock []
+  (button :onclick "${EWW_CMD} open calendar --toggle"
+    :class "clock"
+    (label :class "clock-label"
+      :text {formattime(EWW_TIME,"%I:%M %p")}
+    )
+  )
+)
+
+(defwidget calendarW []
+    (eventbox
+        :onhoverlost "${EWW_CMD} close calendar"
+        (box
+            :class "calendar-widget"
+            :orientation "v"
+            :space-evenly false
+            (box
+                :orientation "v"
+                :space-evenly false
+                (label
+                    :text "${time.hour}:${time.minute}:${time.second} ${time.meridian}"
+                    :class "calendar-time"
+                )
+                (label
+                    :text "${time.monthFull} ${time.day}, ${time.year}"
+                    :class "calendar-date"
+                )
+            )
+            (box :class "calendar-wrapper"
+                (calendar
+                    :day {time.day ?: 1}
+                    :month {time.monthNum ?: 1}
+                    :year {time.year ?: 2000}
+                )
+            )
+        )
+    )
+)
+
+(defwindow calendar
+      :monitor 0
+      :geometry (geometry 	:x "10px"
+                            :y "1%"
+                            :width "25%"
+                            :height "38%"
+                            :anchor "top right")
+      :stacking "fg"
+      :exclusive "true"
+      :focusable "false"
+      :namespace "calendar"
+      (calendarW)
+)

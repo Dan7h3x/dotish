@@ -1,0 +1,40 @@
+
+(defwidget volumeBar [? orient]
+  (box :space-evenly false :orientation orient
+       :valign "center" :class "volumeBar" :halign "center"
+      (label :class "text" :valign "center" :text "󰕾")
+       (scale        :min 0.0
+                     :round-digits 1
+                     ;; :width 240
+                     :height 240
+                     :max 2
+                     :orientation orient
+                     :class "volume-scale"
+                    :flipped "true"
+                     :onchange "playerctl volume {}")
+
+  ))
+
+
+(defwindow dash
+  :monitor 0
+  :class "dashboard"
+  :geometry (geometry :x "25%"
+                      :y "200px"
+                      :width "40%"
+                      :height "40%"
+                      :anchor "top center")
+  :stacking "fg"
+  :exclusive "false"
+  :focusable "false"
+  :namespace "dashboard"
+
+    (box :spece-evenly "false"
+    (playerFull)
+    (box
+      :class "dash-Bars"
+      (volumeBar :orient "vertical")
+      (checkbox :checked "true" :onchecked "notify-send 'Hi'" :onunchecked "notify-send 'Bye'")
+    )
+  )
+)

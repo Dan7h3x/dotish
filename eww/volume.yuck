@@ -1,0 +1,18 @@
+(defwidget volume []
+  (box :class "volume-container"
+    (button :class "volume-button"
+            :onclick "./scripts/volume toggle"
+      (box :class "volume-circle"
+        (box :class "volume-gradient"
+          (box :class "volume-icon"
+            (literal :content {./scripts/volume})
+          )
+        )
+      )
+    )
+    (box :class "volume-scroller"
+      (button :class "volume-up" :onclick "./scripts/volume up" "▲")
+      (button :class "volume-down" :onclick "./scripts/volume down" "▼")
+    )
+  )
+)

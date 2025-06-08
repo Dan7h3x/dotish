@@ -1,0 +1,23 @@
+#!/bin/bash
+
+case "$1" in
+"up")
+  pamixer --increase 5
+  ;;
+"down")
+  pamixer --decrease 5
+  ;;
+"toggle")
+  pamixer --toggle-mute
+  ;;
+esac
+
+# Get current volume and mute status
+volume=$(pamixer --get-volume)
+muted=$(pamixer --get-mute)
+
+if [ "$muted" = "true" ]; then
+  echo " Muted"
+else
+  echo " $volume%"
+fi

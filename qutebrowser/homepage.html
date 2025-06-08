@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Dashboard</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <!-- Particle background container -->
+  <div id="tsparticles"></div>
+
+  <header>
+    <h1>Personal Dashboard</h1>
+    <div class="header-controls">
+      <label>
+        Theme:
+        <select id="themeSelector">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="solar">Solar</option>
+          <option value="neon">Neon</option>
+        </select>
+      </label>
+      <button id="editModeToggle" class="edit-btn">
+        <span id="editModeText">Edit Layout</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="widgetContainer">
+    <!-- Bookmark Generator -->
+    <section id="bookmarkWidget" class="widget" data-widget="bookmark">
+      <div class="widget-handle">⋮⋮</div>
+      <h2>📚 Bookmark Generator</h2>
+      <form id="bookmarkForm">
+        <input type="text" id="bookmarkTitle" placeholder="Title" required />
+        <input type="url" id="bookmarkURL" placeholder="https://example.com" required />
+        <button type="submit">Add</button>
+      </form>
+      <ul id="bookmarkList"></ul>
+    </section>
+
+    <!-- Search Widget -->
+    <section id="searchWidget" class="widget" data-widget="search">
+      <div class="widget-handle">⋮⋮</div>
+      <h2>🔍 Search</h2>
+      <select id="searchEngine">
+        <option value="https://www.google.com/search?q=">Google</option>
+        <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+        <option value="https://www.bing.com/search?q=">Bing</option>
+        <option value="https://github.com/search?q=">GitHub</option>
+      </select>
+      <input type="text" id="searchQuery" placeholder="Search..." />
+      <button id="searchBtn">Go</button>
+    </section>
+
+    <!-- Todo Manager + Calendar -->
+    <section id="todoWidget" class="widget large" data-widget="todo">
+      <div class="widget-handle">⋮⋮</div>
+      <h2>📝 Todo Manager</h2>
+      <form id="todoForm">
+        <input type="text" id="todoTitle" placeholder="Task" required />
+        <input type="date" id="todoDate" required />
+        <select id="todoPriority">
+          <option value="low">Low Priority</option>
+          <option value="medium" selected>Medium Priority</option>
+          <option value="high">High Priority</option>
+        </select>
+        <button type="submit">Add Task</button>
+      </form>
+      <div class="todo-controls">
+        <button id="filterAll" class="filter-btn active">All</button>
+        <button id="filterPending" class="filter-btn">Pending</button>
+        <button id="filterCompleted" class="filter-btn">Completed</button>
+        <button id="clearCompleted" class="clear-btn">Clear Completed</button>
+      </div>
+      <div id="calendar"></div>
+      <ul id="todoList"></ul>
+    </section>
+
+    <!-- Pomodoro Timer -->
+    <section id="pomodoroWidget" class="widget medium" data-widget="pomodoro">
+      <div class="widget-handle">⋮⋮</div>
+      <h2>🍅 Pomodoro Timer</h2>
+      <div id="pomodoroDisplay">25:00</div>
+      <div id="pomodoroStatus">Ready to start</div>
+      <div class="pomodoro-controls">
+        <button id="pomodoroStart">▶️ Start</button>
+        <button id="pomodoroStop">⏹️ Stop</button>
+        <button id="pomodoroReset">🔄 Reset</button>
+      </div>
+      <div class="pomodoro-settings">
+        <label>Work: <input type="number" id="workMinutes" value="25" min="1" max="60" /></label>
+        <label>Break: <input type="number" id="breakMinutes" value="5" min="1" max="30" /></label>
+      </div>
+      <div id="pomodoroStats">
+        <span>Sessions: <span id="sessionCount">0</span></span>
+        <span>Today: <span id="todayCount">0</span></span>
+      </div>
+    </section>
+
+    <!-- Weather Widget -->
+    <section id="weatherWidget" class="widget" data-widget="weather">
+      <div class="widget-handle">⋮⋮</div>
+      <h2>🌤️ Weather</h2>
+      <form id="weatherForm">
+        <input type="text" id="weatherLocation" placeholder="City or location" required />
+        <button type="submit">Get</button>
+      </form>
+      <div id="weatherDisplay"></div>
+    </section>
+
+    <!-- Sticky Notes Generator -->
+    <section id="notesWidget" class="widget small" data-widget="notes">
+      <div class="widget-handle">⋮⋮</div>
+      <h2>📌 Note Generator</h2>
+      <form id="noteForm">
+        <input type="text" id="noteTitle" placeholder="Note title" required />
+        <textarea id="noteContent" placeholder="Note content" rows="3" required></textarea>
+        <button type="submit">Create Note</button>
+      </form>
+          </section>
+
+
+
+    <!-- Clock Widget -->
+    <section id="clockWidget" class="widget small" data-widget="clock">
+      <div class="widget-handle">⋮⋮</div>
+      <h2>🕐 Clock</h2>
+      <div id="digitalClock"></div>
+      <div id="analogClock">
+        <div class="hour-hand"></div>
+        <div class="minute-hand"></div>
+        <div class="second-hand"></div>
+        <div class="center-dot"></div>
+      </div>
+      <div id="dateDisplay"></div>
+    </section>
+
+    <!-- Quick Links Widget -->
+    <section id="linksWidget" class="widget medium" data-widget="links">
+      <div class="widget-handle">⋮⋮</div>
+      <h2>🔗 Quick Links</h2>
+      <form id="linkForm">
+        <input type="text" id="linkName" placeholder="Link name" required />
+        <input type="url" id="linkUrl" placeholder="https://example.com" required />
+        <button type="submit">Add Link</button>
+      </form>
+      <div id="linkGrid"></div>
+    </section>
+    </main>
+
+  <!-- External libraries & main script -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12/tsparticles.bundle.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
