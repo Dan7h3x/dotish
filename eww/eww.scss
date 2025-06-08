@@ -326,7 +326,7 @@ menu {
   background-color: $dark-bg;
   border-radius: 1rem;
   padding: 0.75rem;
-  color: $surface;
+  color: $text;
   font-size: 1.1rem;
 }
 
@@ -337,7 +337,7 @@ menu>menuitem {
 }
 
 menu>menuitem:hover {
-  background-color: mix($surface, $surface, 70%);
+  background-color: mix($surface, $neon-purple, 70%);
 }
 
 .infobutton {
