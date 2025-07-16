@@ -1,0 +1,618 @@
+{
+    "favorites": [
+      "bf3942e0-d1cb-11e8-a54a-52543be04c81",
+      "801f1ac1-7cf1-4fe6-befc-cce8a9263d9c",
+      "9615de2d-0601-11e8-ae97-52543be04c81",
+      "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+      "d449a2a6-013e-11e9-a1be-52543be04c81",
+      "807b2305-0466-4c83-812e-bdbde349457d"
+    ],
+    "volume": 70,
+    "theme": 2,
+    "stationView": 0,
+    "playerType": 0,
+    "history": [
+      {
+        "uuid": "bf3942e0-d1cb-11e8-a54a-52543be04c81",
+        "station": "Best Fm",
+        "song": "",
+        "timestamp": "2025-07-09T11:24:02.69378827+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Ed Sheeran - Azizam",
+        "timestamp": "2025-07-09T11:24:22.193965872+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "AronChupa - I'm An Albatraoz",
+        "timestamp": "2025-07-09T11:24:42.69326423+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "Lost Frequencies \u0026 Zonderling - Crazy",
+        "timestamp": "2025-07-09T11:24:49.193781294+03:30"
+      },
+      {
+        "uuid": "807b2305-0466-4c83-812e-bdbde349457d",
+        "station": "Nr1",
+        "song": "",
+        "timestamp": "2025-07-09T11:26:04.693446825+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "Lost Frequencies \u0026 Zonderling - Crazy",
+        "timestamp": "2025-07-09T11:26:46.193449809+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "",
+        "timestamp": "2025-07-09T11:26:50.193742553+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "Tiësto \u0026 Soaky Siren - Tantalizing",
+        "timestamp": "2025-07-10T10:04:20.272451258+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "Imagination - Music \u0026 Lights",
+        "timestamp": "2025-07-10T10:06:45.772467555+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "Advert: - Advert:",
+        "timestamp": "2025-07-10T10:11:56.272749849+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "Cyndi Lauper - True Colors",
+        "timestamp": "2025-07-10T10:13:52.77270205+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "Pet Shop Boys \u0026 Dusty Springfield - What Have I Done To Deserve This",
+        "timestamp": "2025-07-10T10:17:45.27215714+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "Rudy \u0026 Co. - Mama Radio",
+        "timestamp": "2025-07-10T11:04:26.772721813+03:30"
+      },
+      {
+        "uuid": "bf3942e0-d1cb-11e8-a54a-52543be04c81",
+        "station": "Best Fm",
+        "song": "",
+        "timestamp": "2025-07-10T11:07:26.772658388+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "",
+        "timestamp": "2025-07-10T11:10:43.772532419+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Ed Sheeran - Azizam",
+        "timestamp": "2025-07-10T11:12:19.772489468+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Fast Boy \u0026 ClockClock - Born Again",
+        "timestamp": "2025-07-10T11:13:04.278936751+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "Jonas Brothers - No Time To Talk",
+        "timestamp": "2025-07-10T11:14:36.773483252+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "",
+        "timestamp": "2025-07-10T11:54:53.841867289+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "5 Seconds Of Summer - Me Myself \u0026 I",
+        "timestamp": "2025-07-10T12:03:07.341681732+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "",
+        "timestamp": "2025-07-11T11:55:13.666715782+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "",
+        "timestamp": "2025-07-11T11:55:35.666049199+03:30"
+      },
+      {
+        "uuid": "bf3942e0-d1cb-11e8-a54a-52543be04c81",
+        "station": "Best Fm",
+        "song": "",
+        "timestamp": "2025-07-11T12:25:28.078545841+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Kamrad - Be Mine",
+        "timestamp": "2025-07-11T12:25:38.078342565+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "Nicky Youre - Good Times Go",
+        "timestamp": "2025-07-11T12:25:51.078121634+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "",
+        "timestamp": "2025-07-11T12:25:54.078370163+03:30"
+      },
+      {
+        "uuid": "bf3942e0-d1cb-11e8-a54a-52543be04c81",
+        "station": "Best Fm",
+        "song": "",
+        "timestamp": "2025-07-11T13:39:10.494703409+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Calvin Harris x Clementine Douglas - Blessings",
+        "timestamp": "2025-07-11T13:39:17.995195616+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "",
+        "timestamp": "2025-07-11T13:40:02.994629673+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "Mark Ronson \u0026 RAYE - Suzanne",
+        "timestamp": "2025-07-11T13:41:25.995245707+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "PitBull - I Know You Want Me (Calle Ocho)",
+        "timestamp": "2025-07-11T13:42:49.995223213+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "CRO - BAD BOi",
+        "timestamp": "2025-07-11T13:45:06.49545906+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "",
+        "timestamp": "2025-07-11T13:50:45.994738973+03:30"
+      },
+      {
+        "uuid": "bf3942e0-d1cb-11e8-a54a-52543be04c81",
+        "station": "Best Fm",
+        "song": "",
+        "timestamp": "2025-07-12T10:57:23.264400397+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "",
+        "timestamp": "2025-07-12T10:58:04.765543167+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "Lady Gaga - Garden Of Eden",
+        "timestamp": "2025-07-12T11:12:55.265782653+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "Jonas Brothers - No Time To Talk",
+        "timestamp": "2025-07-12T11:16:24.264895894+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "David Guetta \u0026 OneRepublic - I Don't Wanna Wait",
+        "timestamp": "2025-07-12T11:19:01.264178643+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "Sean Paul, Inna - Let It Talk To Me",
+        "timestamp": "2025-07-12T11:21:32.264946151+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "Bryan Adams - Please Forgive Me",
+        "timestamp": "2025-07-12T11:23:56.765994115+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "Yuri - Este Amor Ya No Se Toca",
+        "timestamp": "2025-07-12T11:29:45.76497971+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "Advert: - Advert:",
+        "timestamp": "2025-07-12T11:33:38.265188168+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "Paul Simon - You Can Call Me Al",
+        "timestamp": "2025-07-12T11:39:35.265558075+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "Mezzoforte - Garden Party",
+        "timestamp": "2025-07-12T11:49:22.264777568+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "Grover Washington, Jr. - Just the Two Of Us",
+        "timestamp": "2025-07-12T11:53:07.764304204+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "DEEPAIM feat. Eevie - Into The Light [Tropical Summer Breeze Mix]",
+        "timestamp": "2025-07-12T11:53:28.265373419+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "Kygo \u0026 Sandro Cavazza - Hold On Me",
+        "timestamp": "2025-07-12T11:54:34.77103189+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "Luca-Dante Spadafora, LUM!X, Justin Jesso - Stronger",
+        "timestamp": "2025-07-12T11:57:24.764363859+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "David Guetta \u0026 Sia - Beautiful People",
+        "timestamp": "2025-07-12T11:59:00.765665089+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "ANTENNE BAYERN - Top 40",
+        "timestamp": "2025-07-12T12:00:34.764195498+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Myle \u0026 Isaak - What If",
+        "timestamp": "2025-07-12T12:00:50.763728663+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Michael Schulte - Afterlife",
+        "timestamp": "2025-07-12T12:03:19.764059781+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Ásdís - Pick Up!",
+        "timestamp": "2025-07-12T12:05:59.764477796+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "ANTENNE BAYERN - Top 40",
+        "timestamp": "2025-07-12T12:09:04.765616743+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Kamrad - Be Mine",
+        "timestamp": "2025-07-12T12:09:19.765477812+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "LOI - Get Lucky",
+        "timestamp": "2025-07-12T12:11:55.766020525+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Rosé \u0026 Bruno Mars - APT.",
+        "timestamp": "2025-07-12T12:14:10.764983058+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "ANTENNE BAYERN - Top 40",
+        "timestamp": "2025-07-12T12:16:51.26522361+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Avicii, Elle King - Let's Ride Away",
+        "timestamp": "2025-07-12T12:17:00.263937304+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Teddy Swims - Bad Dreams",
+        "timestamp": "2025-07-12T12:19:40.265492192+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Benson Boone - Sorry I'm Here For Someone Else",
+        "timestamp": "2025-07-12T12:22:40.265284448+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "ANTENNE BAYERN - Top 40",
+        "timestamp": "2025-07-12T12:25:10.264682504+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Maroon 5, Lisa - Priceless",
+        "timestamp": "2025-07-12T12:25:16.265625633+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Myles Smith - Nice To Meet You",
+        "timestamp": "2025-07-12T12:27:50.264660804+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "",
+        "timestamp": "2025-07-12T12:28:18.26522714+03:30"
+      },
+      {
+        "uuid": "bf3942e0-d1cb-11e8-a54a-52543be04c81",
+        "station": "Best Fm",
+        "song": "",
+        "timestamp": "2025-07-13T17:14:01.137706778+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Alex Warren - Ordinary",
+        "timestamp": "2025-07-13T17:27:06.638248689+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "David Guetta \u0026 Sia - Beautiful People",
+        "timestamp": "2025-07-13T17:28:01.638710935+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "ANTENNE BAYERN - Top 40",
+        "timestamp": "2025-07-13T17:31:06.637958206+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Felix Jaehn feat. JHart - Pride",
+        "timestamp": "2025-07-13T17:31:21.639697485+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Nico Santos - Home Pt. 2",
+        "timestamp": "2025-07-13T17:33:55.638355788+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "ANTENNE BAYERN - Top 40",
+        "timestamp": "2025-07-13T17:36:45.637896484+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Mark Ronson x Raye - Suzanne",
+        "timestamp": "2025-07-13T17:36:56.637747612+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Gracie Abrams - That's So True",
+        "timestamp": "2025-07-13T17:40:26.638247978+03:30"
+      },
+      {
+        "uuid": "bf3942e0-d1cb-11e8-a54a-52543be04c81",
+        "station": "Best Fm",
+        "song": "",
+        "timestamp": "2025-07-13T18:24:31.637721637+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "2KBABY X Marshmello - Like This",
+        "timestamp": "2025-07-14T09:57:06.490028234+03:30"
+      },
+      {
+        "uuid": "bf3942e0-d1cb-11e8-a54a-52543be04c81",
+        "station": "Best Fm",
+        "song": "",
+        "timestamp": "2025-07-14T09:57:09.989322176+03:30"
+      },
+      {
+        "uuid": "801f1ac1-7cf1-4fe6-befc-cce8a9263d9c",
+        "station": "100hitz - Top 40",
+        "song": "",
+        "timestamp": "2025-07-16T03:51:08.187854095+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "Advert: - Advert:",
+        "timestamp": "2025-07-16T03:51:36.188716052+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "Julio Iglesias \u0026 Willie Nelson - To All The Girls I've Loved Before",
+        "timestamp": "2025-07-16T03:53:32.687857443+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "Bakermat - Without Ya",
+        "timestamp": "2025-07-16T03:54:11.687994956+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Alvaro Soler - Con Calma",
+        "timestamp": "2025-07-16T03:54:15.687805029+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Maroon 5, Lisa - Priceless",
+        "timestamp": "2025-07-16T03:55:59.18869598+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "ANTENNE BAYERN - Top 40",
+        "timestamp": "2025-07-16T03:58:39.188266757+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Kraftklub - Schief in jedem Chor",
+        "timestamp": "2025-07-16T03:58:49.189844745+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Kygo x OneRepublic - Chasing Paradise",
+        "timestamp": "2025-07-16T04:01:49.188752485+03:30"
+      },
+      {
+        "uuid": "bf3942e0-d1cb-11e8-a54a-52543be04c81",
+        "station": "Best Fm",
+        "song": "",
+        "timestamp": "2025-07-16T11:03:19.199697707+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "",
+        "timestamp": "2025-07-16T11:17:43.199116996+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "Yves Larock feat. Jawel - Peace \u0026 Freedom",
+        "timestamp": "2025-07-16T11:31:48.198548836+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "",
+        "timestamp": "2025-07-16T11:31:49.698186464+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Alex Warren - Ordinary",
+        "timestamp": "2025-07-16T11:37:15.698445446+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "ANTENNE BAYERN - Top 40",
+        "timestamp": "2025-07-16T11:37:19.698697647+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Mark Ambor - Who Knows",
+        "timestamp": "2025-07-16T11:37:34.698593875+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Moliy \u0026 Silent Addy - Shake It To The Max (Fly)",
+        "timestamp": "2025-07-16T11:40:14.699860714+03:30"
+      },
+      {
+        "uuid": "9615de2d-0601-11e8-ae97-52543be04c81",
+        "station": "Antenne Bayern - Top 40",
+        "song": "Apache 207 - Morgen",
+        "timestamp": "2025-07-16T11:42:44.699294177+03:30"
+      },
+      {
+        "uuid": "801f1ac1-7cf1-4fe6-befc-cce8a9263d9c",
+        "station": "100hitz - Top 40",
+        "song": "",
+        "timestamp": "2025-07-16T11:43:37.69862913+03:30"
+      },
+      {
+        "uuid": "1fdc8bd2-a8a9-11e8-a907-52543be04c81",
+        "station": "1000 HITS 80s",
+        "song": "",
+        "timestamp": "2025-07-16T11:44:47.698368867+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "A7S X David Guetta X Wizkid - Lighter",
+        "timestamp": "2025-07-16T11:44:53.199019808+03:30"
+      },
+      {
+        "uuid": "d449a2a6-013e-11e9-a1be-52543be04c81",
+        "station": "Top 100 Station",
+        "song": "David Guetta, Hypaton, Bonnie Tyler - Together",
+        "timestamp": "2025-07-16T11:45:52.698650575+03:30"
+      },
+      {
+        "uuid": "bf3942e0-d1cb-11e8-a54a-52543be04c81",
+        "station": "Best Fm",
+        "song": "",
+        "timestamp": "2025-07-16T12:35:07.162414883+03:30"
+      }
+    ],
+    "historySaveMax": 100,
+    "autoplayFavorite": ""
+  }

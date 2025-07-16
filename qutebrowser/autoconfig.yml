@@ -6,5 +6,5 @@
 
 config_version: 2
 settings:
-  content.mouse_lock:
-    https://www.crazygames.com: true
+  content.notifications.enabled:
+    https://meet.google.com: true

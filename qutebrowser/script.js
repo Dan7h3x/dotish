@@ -46,148 +46,286 @@ function initTheme() {
   });
 }
 
+// SIMPLE DRAG & DROP SYSTEM --------------------------------------------
+class SimpleDragSystem {
+  constructor() {
+    this.container = qs('#widgetContainer');
+    this.isEditMode = false;
+    this.draggedWidget = null;
+    this.isDragging = false;
+    this.dragOffset = { x: 0, y: 0 };
+    this.widgets = [];
+    
+    this.initializeWidgets();
+  }
+  
+  initializeWidgets() {
+    const widgets = qsa('.widget');
+    this.widgets = Array.from(widgets);
+    
+    // Position widgets in a simple flow layout initially
+    this.layoutWidgets();
+  }
+  
+  layoutWidgets() {
+    const container = this.container;
+    const containerRect = container.getBoundingClientRect();
+    const gap = 16;
+    let currentX = gap;
+    let currentY = gap;
+    let rowHeight = 0;
+    
+    this.widgets.forEach(widget => {
+      const rect = widget.getBoundingClientRect();
+      const widgetWidth = Math.max(250, rect.width || 250);
+      const widgetHeight = Math.max(200, rect.height || 200);
+      
+      // Check if widget fits in current row
+      if (currentX + widgetWidth > containerRect.width - gap && currentX > gap) {
+        currentX = gap;
+        currentY += rowHeight + gap;
+        rowHeight = 0;
+      }
+      
+      // Position widget
+      widget.style.position = 'absolute';
+      widget.style.left = `${currentX}px`;
+      widget.style.top = `${currentY}px`;
+      widget.style.width = `${widgetWidth}px`;
+      widget.style.minHeight = `${widgetHeight}px`;
+      
+      currentX += widgetWidth + gap;
+      rowHeight = Math.max(rowHeight, widgetHeight);
+    });
+  }
+  
+  checkCollision(widget, x, y) {
+    const widgetRect = {
+      left: x,
+      top: y,
+      right: x + widget.offsetWidth,
+      bottom: y + widget.offsetHeight
+    };
+    
+    const gap = 16; // Minimum gap between widgets
+    
+    return this.widgets.some(otherWidget => {
+      if (otherWidget === widget) return false;
+      
+      const otherRect = {
+        left: otherWidget.offsetLeft - gap,
+        top: otherWidget.offsetTop - gap,
+        right: otherWidget.offsetLeft + otherWidget.offsetWidth + gap,
+        bottom: otherWidget.offsetTop + otherWidget.offsetHeight + gap
+      };
+      
+      return !(widgetRect.right <= otherRect.left || 
+               widgetRect.left >= otherRect.right || 
+               widgetRect.bottom <= otherRect.top || 
+               widgetRect.top >= otherRect.bottom);
+    });
+  }
+  
+  findValidPosition(widget, preferredX, preferredY) {
+    // Try the preferred position first
+    if (!this.checkCollision(widget, preferredX, preferredY)) {
+      return { x: preferredX, y: preferredY };
+    }
+    
+    // Try nearby positions in a spiral pattern
+    const step = 20;
+    const maxDistance = 200;
+    
+    for (let distance = step; distance <= maxDistance; distance += step) {
+      // Try positions in a circle around the preferred position
+      for (let angle = 0; angle < 360; angle += 45) {
+        const radian = (angle * Math.PI) / 180;
+        const x = preferredX + Math.cos(radian) * distance;
+        const y = preferredY + Math.sin(radian) * distance;
+        
+        // Make sure position is within container bounds
+        if (x >= 0 && y >= 0 && 
+            x + widget.offsetWidth <= this.container.offsetWidth &&
+            y + widget.offsetHeight <= this.container.offsetHeight) {
+          
+          if (!this.checkCollision(widget, x, y)) {
+            return { x, y };
+          }
+        }
+      }
+    }
+    
+    // If no valid position found, keep original position
+    return { x: widget.offsetLeft, y: widget.offsetTop };
+  }
+}
+
+// Initialize simple drag system
+const dragSystem = new SimpleDragSystem();
+
 // EDIT MODE HANDLING -----------------------------------------------------
 function initEditMode() {
   const editBtn = qs('#editModeToggle');
   const editText = qs('#editModeText');
   const container = qs('#widgetContainer');
-  let isEditMode = false;
   
   editBtn.addEventListener('click', () => {
-    isEditMode = !isEditMode;
-    if (isEditMode) {
+    dragSystem.isEditMode = !dragSystem.isEditMode;
+    console.log('Edit mode toggled:', dragSystem.isEditMode);
+    
+    if (dragSystem.isEditMode) {
       container.classList.add('edit-mode');
       editBtn.classList.add('active');
       editText.textContent = 'Exit Edit';
-      enableWidgetDragging();
+      enableMouseDragging();
     } else {
       container.classList.remove('edit-mode');
       editBtn.classList.remove('active');
       editText.textContent = 'Edit Layout';
-      disableWidgetDragging();
+      disableMouseDragging();
     }
   });
 }
 
-let draggedWidget = null;
-let placeholder = null;
-
-function enableWidgetDragging() {
+function enableMouseDragging() {
   const widgets = qsa('.widget');
   
   widgets.forEach(widget => {
-    widget.draggable = true;
-    widget.addEventListener('dragstart', handleDragStart);
-    widget.addEventListener('dragover', handleDragOver);
-    widget.addEventListener('drop', handleDrop);
-    widget.addEventListener('dragend', handleDragEnd);
+    widget.style.cursor = 'move';
+    widget.addEventListener('mousedown', handleMouseDown);
   });
+  
+  console.log('Mouse dragging enabled for', widgets.length, 'widgets');
 }
 
-function disableWidgetDragging() {
+function disableMouseDragging() {
   const widgets = qsa('.widget');
   
   widgets.forEach(widget => {
-    widget.draggable = false;
-    widget.removeEventListener('dragstart', handleDragStart);
-    widget.removeEventListener('dragover', handleDragOver);
-    widget.removeEventListener('drop', handleDrop);
-    widget.removeEventListener('dragend', handleDragEnd);
+    widget.style.cursor = '';
+    widget.removeEventListener('mousedown', handleMouseDown);
   });
-}
-
-function handleDragStart(e) {
-  draggedWidget = this;
-  this.style.opacity = '0.5';
   
-  // Create placeholder
-  placeholder = document.createElement('div');
-  placeholder.className = 'widget-placeholder';
-  placeholder.style.cssText = `
-    border: 3px dashed var(--accent-color);
-    border-radius: 20px;
-    background: rgba(0, 0, 0, 0.1);
-    min-height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent-color);
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  `;
-  placeholder.textContent = 'Drop Here';
+  // Clean up any ongoing drag
+  document.removeEventListener('mousemove', handleMouseMove);
+  document.removeEventListener('mouseup', handleMouseUp);
+  
+  console.log('Mouse dragging disabled');
 }
 
-function handleDragOver(e) {
+function handleMouseDown(e) {
   e.preventDefault();
-  const container = qs('#widgetContainer');
-  const afterElement = getDragAfterElement(container, e.clientY);
   
-  if (afterElement == null) {
-    container.appendChild(placeholder);
-  } else {
-    container.insertBefore(placeholder, afterElement);
-  }
+  const widget = e.currentTarget;
+  dragSystem.draggedWidget = widget;
+  dragSystem.isDragging = true;
+  
+  // Calculate offset from mouse to widget top-left
+  const rect = widget.getBoundingClientRect();
+  const containerRect = dragSystem.container.getBoundingClientRect();
+  
+  dragSystem.dragOffset = {
+    x: e.clientX - rect.left,
+    y: e.clientY - rect.top
+  };
+  
+  // Add drag styling
+  widget.style.zIndex = '1000';
+  widget.style.opacity = '0.8';
+  widget.style.transform = 'scale(1.05)';
+  widget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+  
+  // Add event listeners to document
+  document.addEventListener('mousemove', handleMouseMove);
+  document.addEventListener('mouseup', handleMouseUp);
+  
+  console.log('Drag started for widget:', widget.dataset.widget);
 }
 
-function handleDrop(e) {
+function handleMouseMove(e) {
+  if (!dragSystem.isDragging || !dragSystem.draggedWidget) return;
+  
   e.preventDefault();
-  if (placeholder && placeholder.parentNode) {
-    placeholder.parentNode.insertBefore(draggedWidget, placeholder);
-    placeholder.remove();
-  }
-  saveWidgetOrder();
-}
-
-function handleDragEnd(e) {
-  if (draggedWidget) {
-    draggedWidget.style.opacity = '';
-    draggedWidget = null;
-  }
-  if (placeholder && placeholder.parentNode) {
-    placeholder.remove();
-  }
-}
-
-function getDragAfterElement(container, y) {
-  const draggableElements = [...container.querySelectorAll('.widget:not(.dragging)')];
   
-  return draggableElements.reduce((closest, child) => {
-    const box = child.getBoundingClientRect();
-    const offset = y - box.top - box.height / 2;
-    
-    if (offset < 0 && offset > closest.offset) {
-      return { offset: offset, element: child };
-    } else {
-      return closest;
+  const widget = dragSystem.draggedWidget;
+  const containerRect = dragSystem.container.getBoundingClientRect();
+  
+  // Calculate new position relative to container
+  let newX = e.clientX - containerRect.left - dragSystem.dragOffset.x;
+  let newY = e.clientY - containerRect.top - dragSystem.dragOffset.y;
+  
+  // Keep widget within container bounds
+  newX = Math.max(0, Math.min(newX, dragSystem.container.offsetWidth - widget.offsetWidth));
+  newY = Math.max(0, Math.min(newY, dragSystem.container.offsetHeight - widget.offsetHeight));
+  
+  // Update widget position temporarily
+  widget.style.left = `${newX}px`;
+  widget.style.top = `${newY}px`;
+}
+
+function handleMouseUp(e) {
+  if (!dragSystem.isDragging || !dragSystem.draggedWidget) return;
+  
+  const widget = dragSystem.draggedWidget;
+  const containerRect = dragSystem.container.getBoundingClientRect();
+  
+  // Calculate final position
+  let finalX = e.clientX - containerRect.left - dragSystem.dragOffset.x;
+  let finalY = e.clientY - containerRect.top - dragSystem.dragOffset.y;
+  
+  // Keep within bounds
+  finalX = Math.max(0, Math.min(finalX, dragSystem.container.offsetWidth - widget.offsetWidth));
+  finalY = Math.max(0, Math.min(finalY, dragSystem.container.offsetHeight - widget.offsetHeight));
+  
+  // Find valid position without collision
+  const validPosition = dragSystem.findValidPosition(widget, finalX, finalY);
+  
+  // Apply final position
+  widget.style.left = `${validPosition.x}px`;
+  widget.style.top = `${validPosition.y}px`;
+  
+  // Reset drag styling
+  widget.style.zIndex = '';
+  widget.style.opacity = '';
+  widget.style.transform = '';
+  widget.style.boxShadow = '';
+  
+  // Clean up
+  dragSystem.isDragging = false;
+  dragSystem.draggedWidget = null;
+  
+  document.removeEventListener('mousemove', handleMouseMove);
+  document.removeEventListener('mouseup', handleMouseUp);
+  
+  // Save positions
+  saveWidgetPositions();
+  
+  console.log('Drag ended, widget positioned at:', validPosition);
+}
+
+function saveWidgetPositions() {
+  const positions = {};
+  dragSystem.widgets.forEach(widget => {
+    const widgetId = widget.dataset.widget;
+    if (widgetId) {
+      positions[widgetId] = {
+        x: widget.offsetLeft,
+        y: widget.offsetTop
+      };
     }
-  }, { offset: Number.NEGATIVE_INFINITY }).element;
-}
-
-function saveWidgetOrder() {
-  const widgets = qsa('.widget');
-  const order = widgets.map(w => w.dataset.widget);
-  lsSet('widget-order', order);
-}
-
-function loadWidgetOrder() {
-  const order = lsGet('widget-order');
-  if (!order) return;
-  
-  const container = qs('#widgetContainer');
-  const widgets = qsa('.widget');
-  
-  // Create a map of widgets by their data-widget attribute
-  const widgetMap = {};
-  widgets.forEach(widget => {
-    widgetMap[widget.dataset.widget] = widget;
   });
+  lsSet('widget-positions', positions);
+}
+
+function loadWidgetPositions() {
+  const positions = lsGet('widget-positions', {});
   
-  // Reorder widgets according to saved order
-  order.forEach(widgetId => {
-    if (widgetMap[widgetId]) {
-      container.appendChild(widgetMap[widgetId]);
+  Object.entries(positions).forEach(([widgetId, pos]) => {
+    const widget = qs(`[data-widget="${widgetId}"]`);
+    if (widget) {
+      widget.style.position = 'absolute';
+      widget.style.left = `${pos.x}px`;
+      widget.style.top = `${pos.y}px`;
     }
   });
 }
@@ -198,6 +336,37 @@ function initParticles() {
   const computedStyle = getComputedStyle(document.body);
   const accentColor = computedStyle.getPropertyValue('--accent-color').trim();
   const glowColor = computedStyle.getPropertyValue('--glow-color').trim();
+  const theme = document.body.getAttribute('data-theme');
+  
+  // Theme-specific particle configurations
+  let particleColors = ['#ffffff', '#ffdd00', '#00ccff', '#ff0077', accentColor];
+  let particleCount = 80;
+  
+  if (theme === 'tokyonight') {
+    particleColors = ['#7aa2f7', '#bb9af7', '#9ece6a', '#f7768e', '#e0af68'];
+  } else if (theme === 'rosepine') {
+    particleColors = ['#c4a7e7', '#eb6f92', '#31748f', '#f6c177', '#9ccfd8'];
+  } else if (theme === 'neon') {
+    particleColors = ['#00ff88', '#ffff00', '#ff0066', '#00ccff', '#ff8800'];
+    particleCount = 120;
+  } else if (theme === 'dark') {
+    particleColors = ['#4fc3f7', '#66bb6a', '#ffb74d', '#f06292', '#90a4ae'];
+  } else if (theme === 'spirited') {
+    particleColors = ['#d4af37', '#f4e4bc', '#8b7355', '#2e8b57', '#ff6347'];
+    particleCount = 90;
+  } else if (theme === 'mononoke') {
+    particleColors = ['#4a7c59', '#e8f4f8', '#2d4a35', '#228b22', '#b8860b'];
+    particleCount = 85;
+  } else if (theme === 'howl') {
+    particleColors = ['#cd853f', '#f5e6d3', '#8b4513', '#32cd32', '#ffd700'];
+    particleCount = 95;
+  } else if (theme === 'laputa') {
+    particleColors = ['#4682b4', '#e6f2ff', '#2f4f4f', '#20b2aa', '#ffa500'];
+    particleCount = 100;
+  } else if (theme === 'kiki') {
+    particleColors = ['#d2691e', '#faf0e6', '#8b4513', '#9acd32', '#ff8c00'];
+    particleCount = 75;
+  }
   
   tsParticles.load('tsparticles', {
     fpsLimit: 120,
@@ -207,11 +376,11 @@ function initParticles() {
     },
     particles: {
       number: { 
-        value: 100, 
+        value: particleCount, 
         density: { enable: true, area: 800 } 
       },
       color: { 
-        value: ['#ffffff', '#ffdd00', '#00ccff', '#ff0077', accentColor] 
+        value: particleColors 
       },
       shape: { 
         type: ['circle', 'triangle', 'polygon'],
@@ -292,6 +461,16 @@ function initParticles() {
   });
 }
 
+// FAVICON UTILITIES -----------------------------------------------------
+function getFaviconUrl(url) {
+  try {
+    const domain = new URL(url).hostname;
+    return `https://www.google.com/s2/favicons?domain=${domain}&sz=16`;
+  } catch {
+    return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="%23cccccc"/></svg>';
+  }
+}
+
 // BOOKMARK WIDGET -------------------------------------------------------
 function initBookmarks() {
   const form = qs('#bookmarkForm');
@@ -302,9 +481,19 @@ function initBookmarks() {
     const bookmarks = lsGet('bookmarks', []);
     bookmarks.forEach((bm, idx) => {
       const li = document.createElement('li');
+      li.className = 'bookmark-item';
+      
+      const favicon = document.createElement('img');
+      favicon.src = getFaviconUrl(bm.url);
+      favicon.className = 'bookmark-favicon';
+      favicon.onerror = () => {
+        favicon.style.display = 'none';
+      };
+      
       const span = document.createElement('span');
       span.textContent = bm.title;
       span.addEventListener('click', () => window.open(bm.url, '_blank'));
+      
       const del = document.createElement('button');
       del.textContent = '✕';
       del.addEventListener('click', () => {
@@ -312,7 +501,8 @@ function initBookmarks() {
         lsSet('bookmarks', bookmarks);
         render();
       });
-      li.append(span, del);
+      
+      li.append(favicon, span, del);
       list.appendChild(li);
     });
   }
@@ -329,7 +519,10 @@ function initBookmarks() {
     render();
     
     // Auto-resize after adding new bookmark
-    setTimeout(() => autoResizeWidget('bookmark'), 100);
+    setTimeout(() => {
+      autoResizeWidget('bookmark');
+      window.optimizeLayout && window.optimizeLayout();
+    }, 100);
   });
 
   render();
@@ -419,6 +612,7 @@ function initTodo() {
     
     // Auto-resize the todo widget after rendering
     autoResizeWidget('todo');
+    setTimeout(() => window.optimizeLayout && window.optimizeLayout(), 50);
   }
 
   // Filter buttons
@@ -475,7 +669,10 @@ function initTodo() {
     renderTasks();
     
     // Auto-resize after adding new task
-    setTimeout(() => autoResizeWidget('todo'), 100);
+    setTimeout(() => {
+      autoResizeWidget('todo');
+      window.optimizeLayout && window.optimizeLayout();
+    }, 100);
   });
 
   function renderCalendar() {
@@ -837,50 +1034,13 @@ function initNotes() {
     form.reset();
     
     // Auto-resize after adding new note
-    setTimeout(() => autoResizeWidget(`note-${note.id}`), 100);
+    setTimeout(() => {
+      autoResizeWidget(`note-${note.id}`);
+      window.optimizeLayout && window.optimizeLayout();
+    }, 100);
   });
 
   loadExistingNotes();
-}
-
-// DYNAMIC WIDGET SIZING ------------------------------------------------
-function updateWidgetSize(widget) {
-  // Remove existing size classes
-  widget.classList.remove('small', 'medium', 'large');
-  
-  // Calculate content height
-  const content = widget.querySelector('.widget-content') || widget;
-  const contentHeight = content.scrollHeight;
-  
-  // Apply appropriate size class based on content
-  if (contentHeight <= 300) {
-    widget.classList.add('small');
-  } else if (contentHeight <= 500) {
-    widget.classList.add('medium');
-  } else {
-    widget.classList.add('large');
-  }
-  
-  // Add smooth transition
-  widget.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-}
-
-function autoResizeWidget(widgetId) {
-  const widget = qs(`[data-widget="${widgetId}"]`);
-  if (widget) {
-    // Use ResizeObserver for automatic resizing
-    if (window.ResizeObserver) {
-      const resizeObserver = new ResizeObserver(entries => {
-        for (let entry of entries) {
-          updateWidgetSize(entry.target);
-        }
-      });
-      resizeObserver.observe(widget);
-    } else {
-      // Fallback for browsers without ResizeObserver
-      updateWidgetSize(widget);
-    }
-  }
 }
 
 // CLOCK WIDGET ----------------------------------------------------------
@@ -944,7 +1104,16 @@ function initQuickLinks() {
       linkEl.className = 'link-item';
       linkEl.href = link.url;
       linkEl.target = '_blank';
-      linkEl.textContent = link.name;
+      
+      const favicon = document.createElement('img');
+      favicon.src = getFaviconUrl(link.url);
+      favicon.className = 'link-favicon';
+      favicon.onerror = () => {
+        favicon.style.display = 'none';
+      };
+      
+      const linkText = document.createElement('span');
+      linkText.textContent = link.name;
       
       const deleteBtn = document.createElement('button');
       deleteBtn.className = 'delete-link';
@@ -958,6 +1127,8 @@ function initQuickLinks() {
         renderLinks();
       });
       
+      linkEl.appendChild(favicon);
+      linkEl.appendChild(linkText);
       linkEl.appendChild(deleteBtn);
       grid.appendChild(linkEl);
     });
@@ -978,7 +1149,10 @@ function initQuickLinks() {
     renderLinks();
     
     // Auto-resize after adding new link
-    setTimeout(() => autoResizeWidget('links'), 100);
+    setTimeout(() => {
+      autoResizeWidget('links');
+      window.optimizeLayout && window.optimizeLayout();
+    }, 100);
   });
 
   renderLinks();
@@ -1010,6 +1184,12 @@ function initKeyboardShortcuts() {
       if (container.classList.contains('edit-mode')) {
         qs('#editModeToggle').click();
       }
+    }
+    
+    // Ctrl/Cmd + M: Optimize layout
+    if ((e.ctrlKey || e.metaKey) && e.key === 'm') {
+      e.preventDefault();
+      window.optimizeLayout && window.optimizeLayout();
     }
   });
 }
@@ -1065,6 +1245,431 @@ function optimizeForQutebrowser() {
   }
 }
 
+// SYSTEM INFO WIDGET ---------------------------------------------------
+function initSystemInfo() {
+  const browserInfo = qs('#browserInfo');
+  const platformInfo = qs('#platformInfo');
+  const memoryInfo = qs('#memoryInfo');
+  
+  if (browserInfo) browserInfo.textContent = navigator.userAgent.split(' ').slice(-2).join(' ');
+  if (platformInfo) platformInfo.textContent = navigator.platform || 'Unknown';
+  
+  // Memory info (if available)
+  if ('memory' in performance && memoryInfo) {
+    const memory = performance.memory;
+    const used = Math.round(memory.usedJSHeapSize / 1048576);
+    memoryInfo.textContent = `${used}MB`;
+  } else if (memoryInfo) {
+    memoryInfo.textContent = 'N/A';
+  }
+}
+
+// RANDOM QUOTE WIDGET ---------------------------------------------------
+function initQuoteWidget() {
+  const quoteText = qs('#quoteText');
+  const quoteAuthor = qs('#quoteAuthor');
+  const refreshBtn = qs('#refreshQuote');
+  
+  const quotes = [
+    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+    { text: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
+    { text: "Life is what happens to you while you're busy making other plans.", author: "John Lennon" },
+    { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+    { text: "It is during our darkest moments that we must focus to see the light.", author: "Aristotle" },
+    { text: "The only impossible journey is the one you never begin.", author: "Tony Robbins" },
+    { text: "In the end, we will remember not the words of our enemies, but the silence of our friends.", author: "Martin Luther King Jr." },
+    { text: "The purpose of our lives is to be happy.", author: "Dalai Lama" },
+    { text: "Darkness cannot drive out darkness; only light can do that.", author: "Martin Luther King Jr." },
+    { text: "The best time to plant a tree was 20 years ago. The second best time is now.", author: "Chinese Proverb" }
+  ];
+  
+  function displayRandomQuote() {
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    if (quoteText) quoteText.textContent = `"${randomQuote.text}"`;
+    if (quoteAuthor) quoteAuthor.textContent = `— ${randomQuote.author}`;
+  }
+  
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', displayRandomQuote);
+    displayRandomQuote(); // Show initial quote
+  }
+}
+
+// UNIT CONVERTER WIDGET ------------------------------------------------
+function initUnitConverter() {
+  const converterType = qs('#converterType');
+  const fromValue = qs('#fromValue');
+  const toValue = qs('#toValue');
+  const fromUnit = qs('#fromUnit');
+  const toUnit = qs('#toUnit');
+  
+  const conversions = {
+    length: {
+      meter: 1,
+      kilometer: 0.001,
+      centimeter: 100,
+      millimeter: 1000,
+      inch: 39.3701,
+      foot: 3.28084,
+      yard: 1.09361,
+      mile: 0.000621371
+    },
+    weight: {
+      kilogram: 1,
+      gram: 1000,
+      pound: 2.20462,
+      ounce: 35.274,
+      ton: 0.001
+    },
+    temperature: {
+      celsius: (val, to) => to === 'fahrenheit' ? (val * 9/5) + 32 : to === 'kelvin' ? val + 273.15 : val,
+      fahrenheit: (val, to) => to === 'celsius' ? (val - 32) * 5/9 : to === 'kelvin' ? (val - 32) * 5/9 + 273.15 : val,
+      kelvin: (val, to) => to === 'celsius' ? val - 273.15 : to === 'fahrenheit' ? (val - 273.15) * 9/5 + 32 : val
+    }
+  };
+  
+  function updateUnits() {
+    const type = converterType?.value;
+    if (!type || !fromUnit || !toUnit) return;
+    
+    fromUnit.innerHTML = '';
+    toUnit.innerHTML = '';
+    
+    if (type === 'temperature') {
+      ['celsius', 'fahrenheit', 'kelvin'].forEach(unit => {
+        fromUnit.add(new Option(unit.charAt(0).toUpperCase() + unit.slice(1), unit));
+        toUnit.add(new Option(unit.charAt(0).toUpperCase() + unit.slice(1), unit));
+      });
+    } else {
+      Object.keys(conversions[type] || {}).forEach(unit => {
+        const displayName = unit.charAt(0).toUpperCase() + unit.slice(1);
+        fromUnit.add(new Option(displayName, unit));
+        toUnit.add(new Option(displayName, unit));
+      });
+    }
+  }
+  
+  function convert() {
+    const type = converterType?.value;
+    const value = parseFloat(fromValue?.value || 0);
+    const from = fromUnit?.value;
+    const to = toUnit?.value;
+    
+    if (!type || !from || !to || isNaN(value)) {
+      if (toValue) toValue.value = '';
+      return;
+    }
+    
+    let result;
+    if (type === 'temperature') {
+      result = conversions.temperature[from](value, to);
+    } else {
+      const conversion = conversions[type];
+      result = (value / conversion[from]) * conversion[to];
+    }
+    
+    if (toValue) toValue.value = result.toFixed(4);
+  }
+  
+  if (converterType) {
+    converterType.addEventListener('change', updateUnits);
+    updateUnits();
+  }
+  
+  if (fromValue) fromValue.addEventListener('input', convert);
+  if (fromUnit) fromUnit.addEventListener('change', convert);
+  if (toUnit) toUnit.addEventListener('change', convert);
+}
+
+// COLOR PALETTE WIDGET --------------------------------------------------
+function initColorPalette() {
+  const mainColor = qs('#mainColor');
+  const generateBtn = qs('#generatePalette');
+  const palette = qs('#colorPalette');
+  
+  function hexToHsl(hex) {
+    const r = parseInt(hex.slice(1, 3), 16) / 255;
+    const g = parseInt(hex.slice(3, 5), 16) / 255;
+    const b = parseInt(hex.slice(5, 7), 16) / 255;
+    
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+    
+    if (max === min) {
+      h = s = 0;
+    } else {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
+      }
+      h /= 6;
+    }
+    
+    return [h * 360, s * 100, l * 100];
+  }
+  
+  function hslToHex(h, s, l) {
+    l /= 100;
+    const a = s * Math.min(l, 1 - l) / 100;
+    const f = n => {
+      const k = (n + h / 30) % 12;
+      const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+      return Math.round(255 * color).toString(16).padStart(2, '0');
+    };
+    return `#${f(0)}${f(8)}${f(4)}`;
+  }
+  
+  function generatePalette() {
+    if (!mainColor || !palette) return;
+    
+    const baseColor = mainColor.value;
+    const [h, s, l] = hexToHsl(baseColor);
+    
+    palette.innerHTML = '';
+    
+    // Generate complementary, triadic, and analogous colors
+    const colors = [
+      baseColor,
+      hslToHex((h + 180) % 360, s, l), // Complementary
+      hslToHex((h + 120) % 360, s, l), // Triadic 1
+      hslToHex((h + 240) % 360, s, l), // Triadic 2
+      hslToHex((h + 30) % 360, s, l)   // Analogous
+    ];
+    
+    colors.forEach(color => {
+      const swatch = document.createElement('div');
+      swatch.className = 'color-swatch';
+      swatch.style.backgroundColor = color;
+      swatch.title = color;
+      swatch.addEventListener('click', () => {
+        navigator.clipboard?.writeText(color);
+        swatch.style.transform = 'scale(1.2)';
+        setTimeout(() => swatch.style.transform = '', 200);
+      });
+      palette.appendChild(swatch);
+    });
+  }
+  
+  if (generateBtn) {
+    generateBtn.addEventListener('click', generatePalette);
+    generatePalette(); // Generate initial palette
+  }
+}
+
+// GIF PLAYER WIDGET -----------------------------------------------------
+function initGifPlayer() {
+  const gifInput = qs('#gifInput');
+  const gifSelector = qs('#gifSelector');
+  const gifImage = qs('#gifImage');
+  const gifPlaceholder = qs('#gifPlaceholder');
+  const gifContainer = qs('#gifContainer');
+  
+  if (!gifInput || !gifSelector || !gifImage || !gifPlaceholder) return;
+  
+  // Load saved GIF
+  const savedGif = lsGet('gif-image');
+  if (savedGif) {
+    loadGif(savedGif);
+  }
+  
+  function loadGif(src) {
+    gifImage.src = src;
+    gifImage.style.display = 'block';
+    gifPlaceholder.style.display = 'none';
+    lsSet('gif-image', src);
+  }
+
+  function clearGif() {
+    gifImage.src = '';
+    gifImage.style.display = 'none';
+    gifPlaceholder.style.display = 'flex';
+    lsSet('gif-image', null);
+  }
+  
+  // Event listeners
+  gifSelector.addEventListener('click', (e) => {
+    e.stopPropagation();
+    gifInput.click();
+  });
+  
+  gifContainer.addEventListener('click', () => {
+    if (gifImage.style.display === 'block') {
+      // If GIF is loaded, clear it
+      clearGif();
+    } else {
+      // If no GIF, open file selector
+      gifInput.click();
+    }
+  });
+  
+  gifInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === 'image/gif') {
+      if (file.size > 10 * 1024 * 1024) { // 10MB limit
+        alert('GIF too large. Please choose a GIF under 10MB.');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        loadGif(event.target.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert('Please select a valid GIF file');
+    }
+  });
+  
+  // Update selector button based on state
+  function updateSelectorButton() {
+    if (gifImage.style.display === 'block') {
+      gifSelector.textContent = '🗑️';
+      gifSelector.title = 'Clear GIF';
+    } else {
+      gifSelector.textContent = '📁';
+      gifSelector.title = 'Select GIF';
+    }
+  }
+  
+  // Override selector click when GIF is loaded
+  gifSelector.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (gifImage.style.display === 'block') {
+      clearGif();
+      updateSelectorButton();
+    } else {
+      gifInput.click();
+    }
+  });
+  
+  // Initial button state
+  updateSelectorButton();
+}
+
+// WIDGET SIZE MANAGEMENT ------------------------------------------------
+function addWidgetSizeControls() {
+  if (qs('.widget-size-controls')) return; // Already added
+  
+  const editBtn = qs('#editModeToggle');
+  const sizeControls = document.createElement('div');
+  sizeControls.className = 'widget-size-controls';
+  sizeControls.innerHTML = `
+    <button id="toggleSizeMode" class="edit-btn">📏 Resize</button>
+  `;
+  
+  editBtn.parentNode.insertBefore(sizeControls, editBtn);
+  
+  let isSizeMode = false;
+  qs('#toggleSizeMode').addEventListener('click', () => {
+    isSizeMode = !isSizeMode;
+    document.body.classList.toggle('size-mode', isSizeMode);
+    
+    if (isSizeMode) {
+      addSizeSelectorsToWidgets();
+      qs('#toggleSizeMode').textContent = '✅ Done';
+    } else {
+      removeSizeSelectorsFromWidgets();
+      qs('#toggleSizeMode').textContent = '📏 Resize';
+    }
+  });
+}
+
+function addSizeSelectorsToWidgets() {
+  qsa('.widget').forEach(widget => {
+    if (widget.querySelector('.size-selector')) return;
+    
+    const sizeSelector = document.createElement('select');
+    sizeSelector.className = 'size-selector';
+    sizeSelector.style.cssText = `
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 10;
+      font-size: 0.7rem;
+      padding: 3px 6px;
+      border-radius: 6px;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+    `;
+    
+    const sizes = [
+      { value: 'size-1x1', label: '1×1' },
+      { value: 'size-1x2', label: '1×2' },
+      { value: 'size-2x1', label: '2×1' },
+      { value: 'size-2x2', label: '2×2' },
+      { value: 'size-3x2', label: '3×2' },
+      { value: 'size-3x3', label: '3×3' }
+    ];
+    
+    sizes.forEach(size => {
+      const option = document.createElement('option');
+      option.value = size.value;
+      option.textContent = size.label;
+      sizeSelector.appendChild(option);
+    });
+    
+    // Set current size
+    const currentSize = sizes.find(s => widget.classList.contains(s.value));
+    if (currentSize) {
+      sizeSelector.value = currentSize.value;
+    } else {
+      sizeSelector.value = 'size-2x2'; // Default
+    }
+    
+    sizeSelector.addEventListener('change', () => {
+      const oldSizes = sizes.map(s => s.value);
+      widget.classList.remove(...oldSizes);
+      widget.classList.add(sizeSelector.value);
+      
+      // Update widget dimensions based on size class
+      const sizeClass = sizeSelector.value;
+      if (sizeClass === 'size-1x1') {
+        widget.style.width = '200px';
+        widget.style.minHeight = '150px';
+      } else if (sizeClass === 'size-1x2') {
+        widget.style.width = '200px';
+        widget.style.minHeight = '300px';
+      } else if (sizeClass === 'size-2x1') {
+        widget.style.width = '350px';
+        widget.style.minHeight = '150px';
+      } else if (sizeClass === 'size-2x2') {
+        widget.style.width = '350px';
+        widget.style.minHeight = '300px';
+      } else if (sizeClass === 'size-3x2') {
+        widget.style.width = '500px';
+        widget.style.minHeight = '300px';
+      } else if (sizeClass === 'size-3x3') {
+        widget.style.width = '500px';
+        widget.style.minHeight = '450px';
+      }
+    });
+    
+    widget.appendChild(sizeSelector);
+  });
+}
+
+function removeSizeSelectorsFromWidgets() {
+  qsa('.size-selector').forEach(selector => selector.remove());
+}
+
+function autoResizeWidget(widgetId) {
+  const widget = qs(`[data-widget="${widgetId}"]`);
+  if (widget) {
+    // Simple auto-resize based on content
+    const contentHeight = widget.scrollHeight;
+    if (contentHeight > widget.offsetHeight) {
+      widget.style.minHeight = `${contentHeight + 20}px`;
+    }
+  }
+}
+
 // INITIALIZE ALL --------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
   // Performance optimization
@@ -1075,8 +1680,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initEditMode();
   initKeyboardShortcuts();
   
-  // Load saved widget order before initializing widgets
-  loadWidgetOrder();
+  // Initialize simple drag system
+  console.log('Initializing simple drag system...');
+  setTimeout(() => {
+    dragSystem.initializeWidgets();
+    loadWidgetPositions(); // Load saved positions
+    console.log('Simple drag system initialized with', dragSystem.widgets.length, 'widgets');
+  }, 200);
   
   // Initialize widgets
   initBookmarks();
@@ -1087,6 +1697,16 @@ document.addEventListener('DOMContentLoaded', () => {
   initNotes();
   initClock();
   initQuickLinks();
+  
+  // Initialize new widgets
+  initSystemInfo();
+  initQuoteWidget();
+  initUnitConverter();
+  initColorPalette();
+  initGifPlayer();
+  
+  // Add widget size controls
+  addWidgetSizeControls();
   
   // Initialize dynamic sizing for all widgets
   qsa('.widget').forEach(widget => {
@@ -1100,5 +1720,5 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     initParticles();
     addEntranceAnimations();
-  }, 100);
+  }, 500);
 }); 

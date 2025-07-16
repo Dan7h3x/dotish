@@ -1,158 +1,289 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Personal Dashboard</title>
-  <link rel="stylesheet" href="./style.css" />
-</head>
-<body>
-  <!-- Particle background container -->
-  <div id="tsparticles"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Dashboard</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- Particle background container -->
+    <div id="tsparticles"></div>
 
-  <header>
-    <h1>Personal Dashboard</h1>
-    <div class="header-controls">
-      <label>
-        Theme:
-        <select id="themeSelector">
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-          <option value="solar">Solar</option>
-          <option value="neon">Neon</option>
+    <header>
+      <h1>Personal Dashboard</h1>
+      <div class="header-controls">
+        <label>
+          Theme:
+          <select id="themeSelector">
+            <option value="light">🌞 Light</option>
+            <option value="dark">🌙 Dark</option>
+            <option value="solar">☀️ Solar</option>
+            <option value="neon">⚡ Neon</option>
+            <option value="tokyonight">🌃 TokyoNight</option>
+            <option value="rosepine">🌹 Rose Pine</option>
+            <optgroup label="🎭 Studio Ghibli">
+              <option value="spirited">🏮 Spirited Away</option>
+              <option value="mononoke">🌲 Princess Mononoke</option>
+              <option value="howl">🏰 Howl's Moving Castle</option>
+              <option value="laputa">☁️ Castle in the Sky</option>
+              <option value="kiki">🍞 Kiki's Delivery Service</option>
+            </optgroup>
+          </select>
+        </label>
+
+        <button id="editModeToggle" class="edit-btn">
+          <span id="editModeText">Edit Layout</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="widgetContainer">
+      <!-- Bookmark Generator -->
+      <section
+        id="bookmarkWidget"
+        class="widget size-2x2"
+        data-widget="bookmark"
+      >
+        <div class="widget-handle">⋮⋮</div>
+        <h2><span class="emoji">📚</span>Bookmarks</h2>
+        <form id="bookmarkForm">
+          <input type="text" id="bookmarkTitle" placeholder="Title" required />
+          <input type="url" id="bookmarkURL" placeholder="URL" required />
+          <button type="submit" class="btn-small">Add</button>
+        </form>
+        <ul id="bookmarkList"></ul>
+      </section>
+
+      <!-- Search Widget -->
+      <section id="searchWidget" class="widget size-2x1" data-widget="search">
+        <div class="widget-handle">⋮⋮</div>
+        <h2><span class="emoji">🔍</span>Search</h2>
+        <select id="searchEngine">
+          <option value="https://www.google.com/search?q=">🔍 Google</option>
+          <option value="https://duckduckgo.com/?q=">🦆 DuckDuckGo</option>
+          <option value="https://www.bing.com/search?q=">🅱️ Bing</option>
+          <option value="https://github.com/search?q=">🐱 GitHub</option>
+          <option value="https://stackoverflow.com/search?q=">
+            📚 Stack Overflow
+          </option>
+          <option value="https://www.youtube.com/results?search_query=">
+            📺 YouTube
+          </option>
         </select>
-      </label>
-      <button id="editModeToggle" class="edit-btn">
-        <span id="editModeText">Edit Layout</span>
-      </button>
-    </div>
-  </header>
+        <input type="text" id="searchQuery" placeholder="Search..." />
+        <button id="searchBtn" class="btn-small">Go</button>
+      </section>
 
-  <main id="widgetContainer">
-    <!-- Bookmark Generator -->
-    <section id="bookmarkWidget" class="widget" data-widget="bookmark">
-      <div class="widget-handle">⋮⋮</div>
-      <h2>📚 Bookmark Generator</h2>
-      <form id="bookmarkForm">
-        <input type="text" id="bookmarkTitle" placeholder="Title" required />
-        <input type="url" id="bookmarkURL" placeholder="https://example.com" required />
-        <button type="submit">Add</button>
-      </form>
-      <ul id="bookmarkList"></ul>
-    </section>
+      <!-- Todo Manager + Calendar -->
+      <section id="todoWidget" class="widget size-3x3" data-widget="todo">
+        <div class="widget-handle">⋮⋮</div>
+        <h2><span class="emoji">📝</span>Todo & Calendar</h2>
+        <form id="todoForm">
+          <input type="text" id="todoTitle" placeholder="Task" required />
+          <input type="date" id="todoDate" required />
+          <select id="todoPriority">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+          </select>
+          <button type="submit" class="btn-small">Add</button>
+        </form>
+        <div class="todo-controls">
+          <button id="filterAll" class="filter-btn btn-small active">
+            All
+          </button>
+          <button id="filterPending" class="filter-btn btn-small">
+            Pending
+          </button>
+          <button id="filterCompleted" class="filter-btn btn-small">
+            Done
+          </button>
+          <button id="clearCompleted" class="clear-btn btn-small btn-secondary">
+            Clear
+          </button>
+        </div>
+        <div id="calendar"></div>
+        <ul id="todoList"></ul>
+      </section>
 
-    <!-- Search Widget -->
-    <section id="searchWidget" class="widget" data-widget="search">
-      <div class="widget-handle">⋮⋮</div>
-      <h2>🔍 Search</h2>
-      <select id="searchEngine">
-        <option value="https://www.google.com/search?q=">Google</option>
-        <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
-        <option value="https://www.bing.com/search?q=">Bing</option>
-        <option value="https://github.com/search?q=">GitHub</option>
-      </select>
-      <input type="text" id="searchQuery" placeholder="Search..." />
-      <button id="searchBtn">Go</button>
-    </section>
+      <!-- Pomodoro Timer -->
+      <section
+        id="pomodoroWidget"
+        class="widget size-2x2"
+        data-widget="pomodoro"
+      >
+        <div class="widget-handle">⋮⋮</div>
+        <h2><span class="emoji">🍅</span>Pomodoro</h2>
+        <div id="pomodoroDisplay" class="widget-value">25:00</div>
+        <div id="pomodoroStatus" class="widget-subtitle">Ready to start</div>
+        <div class="pomodoro-controls">
+          <button id="pomodoroStart" class="btn-small">▶️</button>
+          <button id="pomodoroStop" class="btn-small btn-secondary">⏹️</button>
+          <button id="pomodoroReset" class="btn-small btn-secondary">🔄</button>
+        </div>
+        <div class="pomodoro-settings">
+          <label
+            >Work:
+            <input type="number" id="workMinutes" value="25" min="1" max="60"
+          /></label>
+          <label
+            >Break:
+            <input type="number" id="breakMinutes" value="5" min="1" max="30"
+          /></label>
+        </div>
+        <div id="pomodoroStats" class="widget-subtitle">
+          <span>Sessions: <span id="sessionCount">0</span></span>
+          <span>Today: <span id="todayCount">0</span></span>
+        </div>
+      </section>
 
-    <!-- Todo Manager + Calendar -->
-    <section id="todoWidget" class="widget large" data-widget="todo">
-      <div class="widget-handle">⋮⋮</div>
-      <h2>📝 Todo Manager</h2>
-      <form id="todoForm">
-        <input type="text" id="todoTitle" placeholder="Task" required />
-        <input type="date" id="todoDate" required />
-        <select id="todoPriority">
-          <option value="low">Low Priority</option>
-          <option value="medium" selected>Medium Priority</option>
-          <option value="high">High Priority</option>
+      <!-- Weather Widget -->
+      <section id="weatherWidget" class="widget size-2x1" data-widget="weather">
+        <div class="widget-handle">⋮⋮</div>
+        <h2><span class="emoji">🌤️</span>Weather</h2>
+        <form id="weatherForm">
+          <input
+            type="text"
+            id="weatherLocation"
+            placeholder="Location"
+            required
+          />
+          <button type="submit" class="btn-small">Get</button>
+        </form>
+        <div id="weatherDisplay" class="widget-subtitle"></div>
+      </section>
+
+      <!-- Sticky Notes Generator -->
+      <section id="notesWidget" class="widget size-2x2" data-widget="notes">
+        <div class="widget-handle">⋮⋮</div>
+        <h2><span class="emoji">📌</span>Note Creator</h2>
+        <form id="noteForm">
+          <input type="text" id="noteTitle" placeholder="Title" required />
+          <textarea
+            id="noteContent"
+            placeholder="Note content"
+            rows="2"
+            required
+          ></textarea>
+          <button type="submit" class="btn-small">Create</button>
+        </form>
+      </section>
+
+      <!-- Clock Widget -->
+      <section id="clockWidget" class="widget size-2x2" data-widget="clock">
+        <div class="widget-handle">⋮⋮</div>
+        <h2><span class="emoji">🕐</span>Clock</h2>
+        <div id="digitalClock" class="widget-value"></div>
+        <div id="analogClock">
+          <div class="hour-hand"></div>
+          <div class="minute-hand"></div>
+          <div class="second-hand"></div>
+          <div class="center-dot"></div>
+        </div>
+        <div id="dateDisplay" class="widget-subtitle"></div>
+      </section>
+
+      <!-- Quick Links Widget -->
+      <section id="linksWidget" class="widget size-3x2" data-widget="links">
+        <div class="widget-handle">⋮⋮</div>
+        <h2><span class="emoji">🔗</span>Quick Links</h2>
+        <form id="linkForm">
+          <input type="text" id="linkName" placeholder="Name" required />
+          <input type="url" id="linkUrl" placeholder="URL" required />
+          <button type="submit" class="btn-small">Add</button>
+        </form>
+        <div id="linkGrid"></div>
+      </section>
+
+      <!-- System Info Widget -->
+      <section id="systemWidget" class="widget size-2x1" data-widget="system">
+        <div class="widget-handle">⋮⋮</div>
+        <h2><span class="emoji">💻</span>System Info</h2>
+        <div id="systemInfo">
+          <div class="info-item">
+            <span>Browser:</span> <span id="browserInfo">-</span>
+          </div>
+          <div class="info-item">
+            <span>Platform:</span> <span id="platformInfo">-</span>
+          </div>
+          <div class="info-item">
+            <span>Memory:</span> <span id="memoryInfo">-</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Random Quote Widget -->
+      <section id="quoteWidget" class="widget size-3x2" data-widget="quote">
+        <div class="widget-handle">⋮⋮</div>
+        <h2><span class="emoji">💭</span>Daily Quote</h2>
+        <div id="quoteDisplay">
+          <div id="quoteText" class="widget-subtitle">
+            Click refresh for inspiration...
+          </div>
+          <div id="quoteAuthor" class="widget-subtitle"></div>
+        </div>
+        <button id="refreshQuote" class="btn-small">🔄 New Quote</button>
+      </section>
+
+      <!-- Unit Converter Widget -->
+      <section
+        id="converterWidget"
+        class="widget size-2x2"
+        data-widget="converter"
+      >
+        <div class="widget-handle">⋮⋮</div>
+        <h2><span class="emoji">🔄</span>Unit Converter</h2>
+        <select id="converterType">
+          <option value="length">📏 Length</option>
+          <option value="weight">⚖️ Weight</option>
+          <option value="temperature">🌡️ Temperature</option>
+          <option value="currency">💰 Currency</option>
         </select>
-        <button type="submit">Add Task</button>
-      </form>
-      <div class="todo-controls">
-        <button id="filterAll" class="filter-btn active">All</button>
-        <button id="filterPending" class="filter-btn">Pending</button>
-        <button id="filterCompleted" class="filter-btn">Completed</button>
-        <button id="clearCompleted" class="clear-btn">Clear Completed</button>
-      </div>
-      <div id="calendar"></div>
-      <ul id="todoList"></ul>
-    </section>
+        <div class="converter-inputs">
+          <input type="number" id="fromValue" placeholder="Enter value" />
+          <select id="fromUnit"></select>
+          <span>=</span>
+          <input type="number" id="toValue" readonly />
+          <select id="toUnit"></select>
+        </div>
+      </section>
 
-    <!-- Pomodoro Timer -->
-    <section id="pomodoroWidget" class="widget medium" data-widget="pomodoro">
-      <div class="widget-handle">⋮⋮</div>
-      <h2>🍅 Pomodoro Timer</h2>
-      <div id="pomodoroDisplay">25:00</div>
-      <div id="pomodoroStatus">Ready to start</div>
-      <div class="pomodoro-controls">
-        <button id="pomodoroStart">▶️ Start</button>
-        <button id="pomodoroStop">⏹️ Stop</button>
-        <button id="pomodoroReset">🔄 Reset</button>
-      </div>
-      <div class="pomodoro-settings">
-        <label>Work: <input type="number" id="workMinutes" value="25" min="1" max="60" /></label>
-        <label>Break: <input type="number" id="breakMinutes" value="5" min="1" max="30" /></label>
-      </div>
-      <div id="pomodoroStats">
-        <span>Sessions: <span id="sessionCount">0</span></span>
-        <span>Today: <span id="todayCount">0</span></span>
-      </div>
-    </section>
+      <!-- Color Palette Widget -->
+      <section id="colorWidget" class="widget size-2x2" data-widget="color">
+        <div class="widget-handle">⋮⋮</div>
+        <h2><span class="emoji">🎨</span>Color Palette</h2>
+        <div id="colorPicker">
+          <input type="color" id="mainColor" value="#ff6b6b" />
+          <button id="generatePalette" class="btn-small">Generate</button>
+        </div>
+        <div id="colorPalette"></div>
+      </section>
 
-    <!-- Weather Widget -->
-    <section id="weatherWidget" class="widget" data-widget="weather">
-      <div class="widget-handle">⋮⋮</div>
-      <h2>🌤️ Weather</h2>
-      <form id="weatherForm">
-        <input type="text" id="weatherLocation" placeholder="City or location" required />
-        <button type="submit">Get</button>
-      </form>
-      <div id="weatherDisplay"></div>
-    </section>
-
-    <!-- Sticky Notes Generator -->
-    <section id="notesWidget" class="widget small" data-widget="notes">
-      <div class="widget-handle">⋮⋮</div>
-      <h2>📌 Note Generator</h2>
-      <form id="noteForm">
-        <input type="text" id="noteTitle" placeholder="Note title" required />
-        <textarea id="noteContent" placeholder="Note content" rows="3" required></textarea>
-        <button type="submit">Create Note</button>
-      </form>
-          </section>
-
-
-
-    <!-- Clock Widget -->
-    <section id="clockWidget" class="widget small" data-widget="clock">
-      <div class="widget-handle">⋮⋮</div>
-      <h2>🕐 Clock</h2>
-      <div id="digitalClock"></div>
-      <div id="analogClock">
-        <div class="hour-hand"></div>
-        <div class="minute-hand"></div>
-        <div class="second-hand"></div>
-        <div class="center-dot"></div>
-      </div>
-      <div id="dateDisplay"></div>
-    </section>
-
-    <!-- Quick Links Widget -->
-    <section id="linksWidget" class="widget medium" data-widget="links">
-      <div class="widget-handle">⋮⋮</div>
-      <h2>🔗 Quick Links</h2>
-      <form id="linkForm">
-        <input type="text" id="linkName" placeholder="Link name" required />
-        <input type="url" id="linkUrl" placeholder="https://example.com" required />
-        <button type="submit">Add Link</button>
-      </form>
-      <div id="linkGrid"></div>
-    </section>
+      <!-- GIF Player Widget -->
+      <section id="gifWidget" class="widget size-2x2" data-widget="gif">
+        <div class="widget-handle">⋮⋮</div>
+        <div id="gifContainer">
+          <img id="gifImage" src="" alt="GIF Animation" style="display: none" />
+          <div id="gifPlaceholder">
+            <div class="gif-placeholder-text">🎬 GIF Player</div>
+            <div class="gif-placeholder-subtitle">Click to load a GIF</div>
+          </div>
+          <input
+            type="file"
+            id="gifInput"
+            accept="image/gif"
+            style="display: none"
+          />
+          <button id="gifSelector" class="gif-selector-btn" title="Select GIF">
+            📁
+          </button>
+        </div>
+      </section>
     </main>
 
-  <!-- External libraries & main script -->
-  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12/tsparticles.bundle.min.js"></script>
-  <script src="./script.js"></script>
-</body>
+    <!-- External libraries & main script -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12/tsparticles.bundle.min.js"></script>
+    <script src="./script.js"></script>
+  </body>
 </html>

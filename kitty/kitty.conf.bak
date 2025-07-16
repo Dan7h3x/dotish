@@ -37,50 +37,75 @@ scrollback_pager bash -c "exec nvim 63<&0 0</dev/null -u NONE -c 'map <silent> q
 
 #### Theme ####
 # The basic colors
+foreground              #cdd6f4
+background              #1e1e2e
+selection_foreground    #1e1e2e
+selection_background    #f5e0dc
 
+# Cursor colors
+cursor                  #f5e0dc
+cursor_text_color       #1e1e2e
 
-background #292b3c
-foreground #f9fbff
-selection_background #3b3d4d
-selection_foreground #f9fbff
-url_color #9effb9
-cursor #cbaee4
-cursor_text_color #292b3c
+# URL underline color when hovering with mouse
+url_color               #f5e0dc
 
-# Tabs
-active_tab_background #7fa7ff
-active_tab_foreground #222434
-inactive_tab_background #3b3d4d
-inactive_tab_foreground #e6e7e9
-#tab_bar_background #292b3c
+# Kitty window border colors
+active_border_color     #b4befe
+inactive_border_color   #6c7086
+bell_border_color       #f9e2af
 
-# Windows
-active_border_color #7fa7ff
-inactive_border_color #3b3d4d
+# OS Window titlebar colors
+wayland_titlebar_color system
+macos_titlebar_color system
 
-# normal
-color0 #212230
-color1 #fe4c4c
-color2 #65ff91
-color3 #ffc965
-color4 #7fa7ff
-color5 #b58cd8
-color6 #7fe7ff
-color7 #e6e7e9
+# Tab bar colors
+active_tab_foreground   #11111b
+active_tab_background   #cba6f7
+inactive_tab_foreground #cdd6f4
+inactive_tab_background #181825
+tab_bar_background      #11111b
 
-# bright
-color8 #8d8e9a
-color9 #fe4c4c
-color10 #65ff91
-color11 #ffc965
-color12 #7fa7ff
-color13 #b58cd8
-color14 #7fe7ff
-color15 #f9fbff
+# Colors for marks (marked text in the terminal)
+mark1_foreground #1e1e2e
+mark1_background #b4befe
+mark2_foreground #1e1e2e
+mark2_background #cba6f7
+mark3_foreground #1e1e2e
+mark3_background #74c7ec
 
-# extended colors
-color16 #fe854c
-color17 #ff8484
+# The 16 terminal colors
+
+# black
+color0 #45475a
+color8 #585b70
+
+# red
+color1 #f38ba8
+color9 #f38ba8
+
+# green
+color2  #a6e3a1
+color10 #a6e3a1
+
+# yellow
+color3  #f9e2af
+color11 #f9e2af
+
+# blue
+color4  #89b4fa
+color12 #89b4fa
+
+# magenta
+color5  #f5c2e7
+color13 #f5c2e7
+
+# cyan
+color6  #94e2d5
+color14 #94e2d5
+
+# white
+color7  #bac2de
+color15 #a6adc8
 # END_KITTY_THEME
 
 
@@ -125,15 +150,15 @@ map kitty_mod+s>c               show_last_command_output
 
 # 📑 Tabs: {{{
 
-map kitty_mod+up                 next_tab
-map kitty_mod+down                  previous_tab
+map kitty_mod+right                 next_tab
+map kitty_mod+left                  previous_tab
 map kitty_mod+enter             new_window
-map kitty_mod+left                next_window
-map kitty_mod+right              previous_window
-map ctrl+1                 goto_tab 1
-map ctrl+2                 goto_tab 2
-map ctrl+3                 goto_tab 3
-map ctrl+4                 goto_tab 4
+map kitty_mod+up                next_window
+map kitty_mod+down              previous_window
+map kitty_mod+1                 goto_tab 1
+map kitty_mod+2                 goto_tab 2
+map kitty_mod+3                 goto_tab 3
+map kitty_mod+4                 goto_tab 4
 map kitty_mod+t     new_tab
 map kitty_mod+q     close_tab
 map kitty_mod+w>t               move_tab_forward
